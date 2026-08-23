@@ -304,7 +304,8 @@ def write_tracker(path: Path, all_jobs: list[dict], existing: dict) -> int:
         showDropDown=False,
     )
     ws.add_data_validation(dv)
-    dv.add(f"J2:J{ws.max_row}")
+    last_row = max(ws.max_row, 2)  # avoid an inverted range (e.g. "J2:J1") on empty runs
+    dv.add(f"J2:J{last_row}")
 
     ws.freeze_panes = "A2"
     ws.auto_filter.ref = ws.dimensions
